@@ -1,40 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bodega Club
 
-## Getting Started
+O **Bodega Club** é uma loja virtual de bebidas com catálogo de produtos, carrinho de compras, pedidos e planos de assinatura. O sistema também inclui recursos para clientes e uma área administrativa para gerenciar produtos, pedidos e assinaturas.
 
-First, run the development server:
+## Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Catálogo com busca, categorias, detalhes dos produtos e favoritos.
+- Carrinho e acompanhamento dos pedidos.
+- Pagamento via Pix com integração ao Mercado Pago e fluxo de boleto.
+- Planos de assinatura, gerenciamento de assinaturas e cancelamento.
+- Cadastro e edição de produtos e gestão de pedidos na área administrativa.
+- Conta do cliente, endereços e preferências.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Next.js 14 e React 18, com TypeScript.
+- Tailwind CSS para estilos.
+- Clerk para autenticação.
+- Supabase para dados e persistência.
+- Mercado Pago para pagamentos Pix.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Requisitos
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Node.js 26.x, conforme definido em `package.json`.
+- npm.
+- Credenciais e serviços configurados para Clerk, Supabase e Mercado Pago.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Executar localmente
 
-## Learn More
+1. Instale as dependências:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm ci
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Crie um arquivo `.env.local` na raiz do projeto e configure as variáveis listadas abaixo. Não compartilhe nem versione esse arquivo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Inicie o servidor de desenvolvimento:
 
-## Deploy on Vercel
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   No PowerShell do Windows, se necessário, use `npm.cmd`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```powershell
+   npm.cmd ci
+   npm.cmd run dev
+   ```
+
+4. Abra [http://localhost:3000](http://localhost:3000).
+
+## Variáveis de ambiente
+
+Configure estas variáveis no arquivo `.env.local` para desenvolvimento:
+
+| Variável | Uso |
+| --- | --- |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Chave pública do Clerk usada pelo cliente. |
+| `CLERK_SECRET_KEY` | Chave secreta do Clerk, usada no servidor. |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Chave privilegiada do Supabase; mantenha somente no servidor. |
+| `MERCADOPAGO_ACCESS_TOKEN` | Token usado pelo servidor para criar pagamentos Pix. |
+
+A rota `/api/check-user` também lê `POSTGRES_CONNECTION_STRING`. Configure-a caso esse endpoint seja utilizado.
+
+As variáveis com o prefixo `NEXT_PUBLIC_` ficam disponíveis no navegador. Nunca coloque chaves secretas sob esse prefixo, nem adicione valores reais de credenciais ao README ou ao repositório.
+
+## Comandos
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Inicia o servidor de desenvolvimento. |
+| `npm run build` | Gera a versão otimizada para produção. |
+| `npm start` | Inicia a aplicação já compilada. |
+| `npm run lint` | Executa as verificações de lint do Next.js. |
+
+## Banco de dados
+
+Os scripts SQL e referências do esquema estão na pasta [`BANCO DE DADOS`](./BANCO%20DE%20DADOS/).
