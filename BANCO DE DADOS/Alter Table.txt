@@ -1,0 +1,29 @@
+ALTER TABLE favoritos ADD CONSTRAINT FKfavoritos_id_produto FOREIGN KEY (id_produto) REFERENCES produto (id_produto);
+
+ALTER TABLE favoritos ADD CONSTRAINT FKfavoritos_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE item_pedido ADD CONSTRAINT FKitem_pedido_id_pedido FOREIGN KEY (id_pedido) REFERENCES pedido (id_pedido);
+
+ALTER TABLE pedido ADD CONSTRAINT FKpedido_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE item_pedido ADD CONSTRAINT FKitem_pedido_id_produto FOREIGN KEY (id_produto) REFERENCES produto (id_produto);
+
+ALTER TABLE assinatura ADD CONSTRAINT FKassinatura_id_plano FOREIGN KEY (id_plano) REFERENCES plano_assinatura (id_plano);
+
+ALTER TABLE assinatura ADD CONSTRAINT FKassinatura_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE endereco ADD CONSTRAINT FKendereco_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE item_assinatura ADD CONSTRAINT FKitem_assinatura_id_produto FOREIGN KEY (id_produto) REFERENCES produto (id_produto);
+
+ALTER TABLE item_assinatura ADD CONSTRAINT FKitem_assinatura_id_assinatura FOREIGN KEY (id_assinatura) REFERENCES assinatura (id_assinatura);
+
+ALTER TABLE vendedor ADD CONSTRAINT FKvendedor_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE pedido ADD CONSTRAINT FKpedido_id_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedor (id_vendedor);
+
+ALTER TABLE assinatura ADD CONSTRAINT FKassinatura_id_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedor (id_vendedor);
+
+ALTER TABLE carrinho ADD CONSTRAINT FKcarrinho_id_usuario FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario);
+
+ALTER TABLE carrinho ADD CONSTRAINT FKcarrinho_id_produto FOREIGN KEY (id_produto) REFERENCES produto (id_produto);

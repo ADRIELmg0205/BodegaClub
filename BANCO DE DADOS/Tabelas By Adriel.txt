@@ -1,0 +1,129 @@
+CREATE TABLE plano_assinatura(
+id_plano SERIAL NOT NULL,
+nome_plano varchar(255),  
+descricao_plano varchar(500),
+imagem_plano varchar(255),  
+precomensal_plano numeric(10, 2),
+precosemestral_plano numeric(10, 2), 
+precoanual_plano numeric(10, 2),  
+PRIMARY KEY (id_plano)
+);
+
+CREATE TABLE assinatura (
+id_assinatura SERIAL NOT NULL, 
+id_plano integer, 
+id_usuario integer, 
+data_assinatura timestamp,
+valor_assinatura numeric(10, 2),
+mensalidade_assinatura numeric(10, 2),
+situacao_assinatura char(1),
+formaplano_assinatura char(1),
+proximopagto_assinatura date,
+PRIMARY KEY (id_assinatura)
+);
+
+ALTER TABLE assinatura
+ADD COLUMN formapagto_assinatura CHAR(1);
+
+ALTER TABLE assinatura
+ADD COLUMN id_usuario_clerk Varchar(255);
+
+ALTER TABLE assinatura
+ADD CONSTRAINT fk_plano_assinatura
+FOREIGN KEY (id_plano)
+REFERENCES plano_assinatura (id_plano);
+
+CREATE TABLE pedido (
+id_pedido SERIAL NOT NULL, 
+id_usuario integer,
+id_usuario_clerk Varchar(255), 
+data_pedido timestamp,
+formapagto_pedido CHAR(1),
+valor_pedido numeric(10, 2),
+situacao_pedido char(1),
+PRIMARY KEY (id_pedido)
+);
+
+CREATE TABLE item_pedido (
+id_item SERIAL NOT NULL, 
+id_pedido integer,
+id_produto integer,
+quantidade_item integer,
+valor_item numeric(10, 2),
+valortotal_item numeric(10, 2),
+PRIMARY KEY (id_item)
+);
+
+ALTER TABLE item_pedido
+ADD CONSTRAINT fk_pedido
+FOREIGN KEY (id_pedido)
+REFERENCES pedido (id_pedido);
+
+ALTER TABLE item_pedido
+ADD CONSTRAINT fk_id_produto_produto
+FOREIGN KEY (id_produto)
+REFERENCES produto (id_produto);
+
+ALTER TABLE pedido
+ADD CONSTRAINT fk_id_usuario_clerk_users
+FOREIGN KEY (id_usuario_clerk)
+REFERENCES users (clerk_user_id);
+
+CREATE TABLE produtos_favoritos (
+    id_favorito SERIAL PRIMARY KEY,   -- Identificador único para o favorito
+    id_usuario INT,         -- ID do usuário (UUID usado para identificação no Supabase)
+    id_usuario_clerk VARCHAR(255),  -- ID do usuário no Clerk
+    id_produto INT          -- ID do produto favorito
+);
+
+
+-- Inserindo plano de assinatura de cerveja
+INSERT INTO plano_assinatura (nome_plano, descricao_plano, imagem_plano, precomensal_plano, precosemestral_plano, precoanual_plano)
+VALUES ('Clube de Cerveja', 'Assinatura mensal com entrega de cervejas artesanais exclusivas.', 'cerveja.jpg', 89.90, 499.90, 899.90);
+
+-- Inserindo plano de assinatura de vinhos
+INSERT INTO plano_assinatura (nome_plano, descricao_plano, imagem_plano, precomensal_plano, precosemestral_plano, precoanual_plano)
+VALUES ('Clube de Vinhos', 'Assinatura com seleção de vinhos premium entregues mensalmente.', 'vinho.jpg', 149.90, 799.90, 1499.90);
+
+
+
+-- Função que atualiza o estoque do produto
+CREATE OR REPLACE FUNCTION atualizar_estoque_produto()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Atualiza o estoque do produto baseado na quantidade do item pedido
+  UPDATE produto
+  SET estoque_produto = estoque_produto - NEW.quantidade_item
+  WHERE id_produto = NEW.id_produto;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger que chama a função após a inserção de um item_pedido
+CREATE TRIGGER trigger_atualizar_estoque_produto
+AFTER INSERT ON item_pedido
+FOR EACH ROW
+EXECUTE FUNCTION atualizar_estoque_produto();
+
+
+CREATE TABLE endereco(
+id_endereco SERIAL PRIMARY KEY, 
+id_usuario int,
+id_usuario_clerk VARCHAR(255), 
+cep_endereco VARCHAR(10),
+estado_endereco VARCHAR(2),
+cidade_endereco VARCHAR(255),
+bairro_endereco VARCHAR(255),
+rua_endereco VARCHAR(255),
+numero_endereco int,
+complemento_endereco VARCHAR(255),
+);
+
+ALTER TABLE endereco
+ADD CONSTRAINT fk_id_usuario_clerk_users
+FOREIGN KEY (id_usuario_clerk)
+REFERENCES users (clerk_user_id);
+
+ALTER TABLE users
+ADD COLUMN gostos Varchar(5000);

@@ -1,0 +1,33 @@
+npm install lucide-react
+
+npm install @clerk/nextjs
+
+npm install prisma
+
+npx prisma init
+
+npm install axios
+
+npm install @types/axios --save-dev
+
+npm install pg
+
+npm install @types/pg --save-dev
+
+npm i swiper
+
+npm install react-modal
+
+npm install --save-dev @types/react-modal
+
+npm install @clerk/clerk-sdk-node
+
+npm install react-toastify
+
+npm install react-device-detect
+
+npm install jspdf html2canvas
+
+npm install bwip-js jspdf html2canvas
+
+npm install pdf-lib
